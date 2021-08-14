@@ -547,58 +547,104 @@ class Doctolib(LoginBrowser):
 
         return self.page.doc['confirmed']
 
+## component: describe the commom parameters of Doctolib object 
+class DoctolibCounty(Doctolib):
+    def __init__(self, 
+                 BASEURL, 
+                 KEY_PFIZER, 
+                 KEY_PFIZER_SECOND, 
+                 KEY_PFIZER_THIRD, 
+                 KEY_MODERNA, 
+                 KEY_MODERNA_SECOND, 
+                 KEY_MODERNA_THIRD,
+                 KEY_JANSSEN,
+                 KEY_ASTRAZENECA,
+                 KEY_ASTRAZENECA_SECOND,
+                 vaccine_motives,
+                 centers,
+                 center):
+        """ implement in child class """
 
-class DoctolibDE(Doctolib):
-    BASEURL = 'https://www.doctolib.de'
-    KEY_PFIZER = '6768'
-    KEY_PFIZER_SECOND = '6769'
-    KEY_PFIZER_THIRD = None
-    KEY_MODERNA = '6936'
-    KEY_MODERNA_SECOND = '6937'
-    KEY_MODERNA_THIRD = None
-    KEY_JANSSEN = '7978'
-    KEY_ASTRAZENECA = '7109'
-    KEY_ASTRAZENECA_SECOND = '7110'
-    vaccine_motives = {
-        KEY_PFIZER: 'Pfizer',
-        KEY_PFIZER_SECOND: 'Zweit.*Pfizer|Pfizer.*Zweit',
-        KEY_PFIZER_THIRD: 'Dritt.*Pfizer|Pfizer.*Dritt',
-        KEY_MODERNA: 'Moderna',
-        KEY_MODERNA_SECOND: 'Zweit.*Moderna|Moderna.*Zweit',
-        KEY_MODERNA_THIRD: 'Dritt.*Moderna|Moderna.*Dritt',
-        KEY_JANSSEN: 'Janssen',
-        KEY_ASTRAZENECA: 'AstraZeneca',
-        KEY_ASTRAZENECA_SECOND: 'Zweit.*AstraZeneca|AstraZeneca.*Zweit',
-    }
-    centers = URL(r'/impfung-covid-19-corona/(?P<where>\w+)', CentersPage)
-    center = URL(r'/praxis/.*', CenterPage)
+## composite: Doctolib in Germany
+class DoctolibDE(DoctolibCounty):
+    def __init__(self, 
+                 BASEURL, 
+                 KEY_PFIZER, 
+                 KEY_PFIZER_SECOND, 
+                 KEY_PFIZER_THIRD, 
+                 KEY_MODERNA, 
+                 KEY_MODERNA_SECOND, 
+                 KEY_MODERNA_THIRD,
+                 KEY_JANSSEN,
+                 KEY_ASTRAZENECA,
+                 KEY_ASTRAZENECA_SECOND,
+                 vaccine_motives,
+                 centers,
+                 center):
+        self.BASEURL = 'https://www.doctolib.de'
+        self.KEY_PFIZER = '6768'
+        self.KEY_PFIZER_SECOND = '6769'
+        self.KEY_PFIZER_THIRD = None
+        self.KEY_MODERNA = '6936'
+        self.KEY_MODERNA_SECOND = '6937'
+        self.KEY_MODERNA_THIRD = None
+        self.KEY_JANSSEN = '7978'
+        self.KEY_ASTRAZENECA = '7109'
+        self.KEY_ASTRAZENECA_SECOND = '7110'
+        self.vaccine_motives = {
+                KEY_PFIZER: 'Pfizer',
+                KEY_PFIZER_SECOND: 'Zweit.*Pfizer|Pfizer.*Zweit',
+                KEY_PFIZER_THIRD: 'Dritt.*Pfizer|Pfizer.*Dritt',
+                KEY_MODERNA: 'Moderna',
+                KEY_MODERNA_SECOND: 'Zweit.*Moderna|Moderna.*Zweit',
+                KEY_MODERNA_THIRD: 'Dritt.*Moderna|Moderna.*Dritt',
+                KEY_JANSSEN: 'Janssen',
+                KEY_ASTRAZENECA: 'AstraZeneca',
+                KEY_ASTRAZENECA_SECOND: 'Zweit.*AstraZeneca|AstraZeneca.*Zweit',
+            }
+        self.centers = URL(r'/impfung-covid-19-corona/(?P<where>\w+)', CentersPage)
+        self.center = URL(r'/praxis/.*', CenterPage)
 
+## composite: Doctolib in France
+class DoctolibFR(DoctolibCounty):
+    def __init__(self, 
+                 BASEURL, 
+                 KEY_PFIZER, 
+                 KEY_PFIZER_SECOND, 
+                 KEY_PFIZER_THIRD, 
+                 KEY_MODERNA, 
+                 KEY_MODERNA_SECOND, 
+                 KEY_MODERNA_THIRD,
+                 KEY_JANSSEN,
+                 KEY_ASTRAZENECA,
+                 KEY_ASTRAZENECA_SECOND,
+                 vaccine_motives,
+                 centers,
+                 center):
+        self.BASEURL = 'https://www.doctolib.fr'
+        self.KEY_PFIZER = '6970'
+        self.KEY_PFIZER_SECOND = '6971'
+        self.KEY_PFIZER_THIRD = '8192'
+        self.KEY_MODERNA = '7005'
+        self.KEY_MODERNA_SECOND = '7004'
+        self.KEY_MODERNA_THIRD = '8193'
+        self.KEY_JANSSEN = '7945'
+        self.KEY_ASTRAZENECA = '7107'
+        self.KEY_ASTRAZENECA_SECOND = '7108'
+        self.vaccine_motives = {
+            KEY_PFIZER: 'Pfizer',
+            KEY_PFIZER_SECOND: '2de.*Pfizer',
+            KEY_PFIZER_THIRD: '3e.*Pfizer',
+            KEY_MODERNA: 'Moderna',
+            KEY_MODERNA_SECOND: '2de.*Moderna',
+            KEY_MODERNA_THIRD: '3e.*Moderna',
+            KEY_JANSSEN: 'Janssen',
+            KEY_ASTRAZENECA: 'AstraZeneca',
+            KEY_ASTRAZENECA_SECOND: '2de.*AstraZeneca',
+        }
 
-class DoctolibFR(Doctolib):
-    BASEURL = 'https://www.doctolib.fr'
-    KEY_PFIZER = '6970'
-    KEY_PFIZER_SECOND = '6971'
-    KEY_PFIZER_THIRD = '8192'
-    KEY_MODERNA = '7005'
-    KEY_MODERNA_SECOND = '7004'
-    KEY_MODERNA_THIRD = '8193'
-    KEY_JANSSEN = '7945'
-    KEY_ASTRAZENECA = '7107'
-    KEY_ASTRAZENECA_SECOND = '7108'
-    vaccine_motives = {
-        KEY_PFIZER: 'Pfizer',
-        KEY_PFIZER_SECOND: '2de.*Pfizer',
-        KEY_PFIZER_THIRD: '3e.*Pfizer',
-        KEY_MODERNA: 'Moderna',
-        KEY_MODERNA_SECOND: '2de.*Moderna',
-        KEY_MODERNA_THIRD: '3e.*Moderna',
-        KEY_JANSSEN: 'Janssen',
-        KEY_ASTRAZENECA: 'AstraZeneca',
-        KEY_ASTRAZENECA_SECOND: '2de.*AstraZeneca',
-    }
-
-    centers = URL(r'/vaccination-covid-19/(?P<where>\w+)', CentersPage)
-    center = URL(r'/centre-de-sante/.*', CenterPage)
+        self.centers = URL(r'/vaccination-covid-19/(?P<where>\w+)', CentersPage)
+        self.center = URL(r'/centre-de-sante/.*', CenterPage)
 
 
 class Application:
