@@ -89,9 +89,34 @@ class ChallengePage(JsonPage):
         return ""  # Do not choke on empty response from server
 
 
+class CenterId_Iterator():
+    '''
+    implement an iterator on center id list
+    '''
+
+    def __init__(self, center_id_list):
+        self.count = 0
+        self.center_id_list = center_id_list
+        
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            resu = self.center_id_list[index]
+        except IndexError:
+            raise StopIteration
+
+        self.count++
+        return resu
+            
+
 class CentersPage(HTMLPage):
     def iter_centers_ids(self):
-        for div in self.doc.xpath('//div[@class="js-dl-search-results-calendar"]'):
+        center_id_list = self.doc.xpath('//div[@class="js-dl-search-results-calendar"]')
+        itr = CenterId_Iterator(center_id_list)
+        for div in itr:
             data = json.loads(div.attrib['data-props'])
             yield data['searchResultId']
 
