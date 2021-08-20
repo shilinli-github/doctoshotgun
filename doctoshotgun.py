@@ -601,6 +601,40 @@ class DoctolibFR(Doctolib):
     center = URL(r'/centre-de-sante/.*', CenterPage)
 
 
+'''
+subscriber object
+'''
+class subscriber:
+    def __init__(self, email, subscription_type):
+        self.subscriber = email
+        # subscription_type is a string of subscribed center and vaccine type
+        # e.g. center_name + Phfizer
+        self.subscription_type = subscription_type 
+
+'''
+manage the subscription and dispatch restock information, 
+restock is the even in this project
+'''
+class publisher:
+    def __init__(self, restocks):
+        # for restock per center and per vaccine, map the restck event to 
+        # the list of subscriberes
+        self.restocks = dict(zip(restock, subscribers[]))
+    
+    def get_subscribers(self, restock):
+        return self.restocks[restock]
+    
+    def subscribe(self, restock, subscribe_person):
+        self.get_subscribers(restock).append(subscribe_person)
+
+    def unsubscribe(self, restock, unsubscribe_person):
+        self.get_subscribers(restock).remove(unsubscribe_person)
+
+    def send_newsletter(self):
+        for restock in self.restocks:
+            for subscriber in self.get_subscribers(restock).items():
+                'send newsletters to the subscribers'
+
 class Application:
     @classmethod
     def create_default_logger(cls):
